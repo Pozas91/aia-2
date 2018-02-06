@@ -17,6 +17,10 @@ class Clasificador:
         except ClasificadorNoEntrenado:
             """ CONTROLAR EXCEPCIÓN AQUÍ """
     
+    """
+    Recibe como argumento un ejemplo y devuelve el valor de clasificación
+    según el modelo obtenido en el entrenamiento.
+    """
     def clasifica(self, ejemplo):
         try:
             """ LÓGICA AQUÍ """
@@ -25,6 +29,10 @@ class Clasificador:
             """ CONTROLAR EXCEPCIÓN AQUÍ """
             print(error)
     
+    """
+    Recibe como argumento un conjunto de prueba y devuelve el rendimiento del
+    modelo obtenido en el entrenamiento.
+    """
     def evalua(self, prueba):
         try:
             """ LÓGICA AQUÍ """
@@ -33,6 +41,9 @@ class Clasificador:
             """ CONTROLAR EXCEPCIÓN AQUÍ """
             print(error)
     
+    """
+    Imprime de forma legible el modelo obtenido en el entrenamiento.
+    """
     def imprime(self):
         try:
             """ LÓGICA AQUÍ """
