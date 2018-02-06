@@ -53,3 +53,9 @@ class Clasificador:
         except ClasificadorNoEntrenado as error:
             """ CONTROLAR EXCEPCIÓN AQUÍ """
             print(error)
+            
+    def set_arbol(self, arbol):
+        self.__arbol = arbol
+        
+    def get_arbol(self):
+        return self.__arbol

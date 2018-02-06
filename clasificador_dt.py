@@ -5,7 +5,7 @@ from clasificador import Clasificador
 class ClasificadorDT(Clasificador):
     
     def __init__(self, clasificacion, clases, atributos):
-        super(clasificacion, clases, atributos)
+        Clasificador.__init__(self, clasificacion, clases, atributos)
         
     """
     Recibe un conjunto de entrenamiento, un posible conjunto de validación que
@@ -25,7 +25,6 @@ class ClasificadorDT(Clasificador):
     de ejemplos) por debajo del cual el nodo no es candidato a nodo interno.
     """
     def entrena(self, entrenamiento, validacion = None, medida = 'entropía', maxima_frecuencia = 1.0, minimo_ejemplos = 0.0):
-        
         pass
     
     def funcion_recursiva_base():
