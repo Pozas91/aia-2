@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #Importamos la excepción personalizada ClasificadorNoEntrenado
-from clasificadorNoEntrenado import ClasificadorNoEntrenado
+from clasificador_no_encontrado import ClasificadorNoEntrenado
 
 #Clase clasificador
 class Clasificador:
