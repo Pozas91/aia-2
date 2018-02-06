@@ -7,11 +7,11 @@ from clasificador_no_encontrado import ClasificadorNoEntrenado
 class Clasificador:
     
     def __init__(self, clasificacion, clases, atributos):
-        self.clasificacion=clasificacion
-        self.clases=clases
-        self.atributos=atributos
+        self.clasificacion = clasificacion
+        self.clases = clases
+        self.atributos = atributos
         
-    def entrena(self, entrenamiento, validacion=None):
+    def entrena(self, entrenamiento, validacion = None):
         try:
             """ LÓGICA AQUÍ """
         except ClasificadorNoEntrenado:
