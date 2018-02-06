@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # Importaciones de librerías requeridas
-import re
 import time
-import tkinter as tk
-import sys
-import textwrap
-import random
-from collections import Counter
+from copy import deepcopy
+from collections import defaultdict
 
 # Variables globales
 
