@@ -2,6 +2,7 @@
 
 #Importamos la excepción personalizada ClasificadorNoEntrenado
 from clasificador_no_encontrado import ClasificadorNoEntrenado
+from nodo import NodoDT
 
 #Clase clasificador
 class Clasificador:
@@ -10,6 +11,7 @@ class Clasificador:
         self.clasificacion = clasificacion
         self.clases = clases
         self.atributos = atributos
+        self.__arbol = NodoDT()
         
     def entrena(self, entrenamiento, validacion = None):
         try:
