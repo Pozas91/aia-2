@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from clasificador import Clasificador
+from nodo import NodoDT
+from collections import defaultdict
 
 class ClasificadorDT(Clasificador):
     
@@ -25,6 +27,15 @@ class ClasificadorDT(Clasificador):
     de ejemplos) por debajo del cual el nodo no es candidato a nodo interno.
     """
     def entrena(self, entrenamiento, validacion = None, medida = 'entropía', maxima_frecuencia = 1.0, minimo_ejemplos = 0.0):
+        
+        distr = defaultdict(int)
+        
+        for x in self.clases:
+            total = len([y for y in entrenamiento if y[-1] == x])
+            distr.update({x : total})
+        
+        raiz = NodoDT(0, distr)
+        print(raiz, distr)
         pass
     
     def funcion_recursiva_base():
