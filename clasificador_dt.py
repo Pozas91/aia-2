@@ -2,7 +2,7 @@
 
 from clasificador import Clasificador
 from nodo import NodoDT
-from collections import defaultdict
+import utils
 
 class ClasificadorDT(Clasificador):
     
@@ -13,7 +13,7 @@ class ClasificadorDT(Clasificador):
     Recibe un conjunto de entrenamiento, un posible conjunto de validación que
     ayudará a evitar el sobreajuste.
     
-    El atributo 'medida' indica la función que se utilizará para cuentificar el
+    El atributo 'medida' indica la función que se utilizará para cuantificar el
     grado de clasificación. Sus valores deben ser error, gini o entropía e
     indican que se debe usar la tasa de error, el índice de Gini o la entropía
     (respectivamente). El valor por defecto será 'entropía'.
@@ -28,27 +28,16 @@ class ClasificadorDT(Clasificador):
     """
     def entrena(self, entrenamiento, validacion = None, medida = 'entropía', maxima_frecuencia = 1.0, minimo_ejemplos = 0.0):
         
-        distr = defaultdict(int)
+        arbol = self.id3(entrenamiento, self.atributos)
         
-        for x in self.clases:
-            total = len([y for y in entrenamiento if y[-1] == x])
-            distr.update({x : total})
+        utils.distribucion_clases(entrenamiento)
         
-        raiz = NodoDT(0, distr)
-        
-        ramas = {
-            "parado": NodoDT(nivel = 1, distr = distr),
-            "trabajando": NodoDT(nivel = 1, distr = distr)
-        }
-        
-        raiz.ramas = ramas
-        
-        print(raiz)
-        
+        self.set_arbol(arbol);
+            
         pass
     
-    def funcion_recursiva_base():
-        pass
+    def id3(self, datos_totales, atributos):
+        return NodoDT()
     
-    def funcion_recursiva():
+    def id3_recursiva(datos_totales, atributos, datos_actuales):
         pass
