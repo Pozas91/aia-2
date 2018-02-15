@@ -2,7 +2,7 @@
 
 class NodoDT(object):
     
-    def __init__(self, atributo = -1, distr = None, ramas = None, clase = None):
+    def __init__(self, atributo = -1, distr = None, ramas = None, clase = None, nivel = 0):
         
         """
         Diccionario donde la clave será cada una de las clases, y el valor
@@ -44,3 +44,36 @@ class NodoDT(object):
         pertenece el modelo dado.
         """
         self.clase = clase
+        
+        """
+        Este atributo es usado básicamente para imprimir el nodo con tantos
+        tabuladores como en el nivel que nos encontramos.
+        """
+        self.nivel = nivel
+        
+    def __str__(self):
+        
+        """
+        Pintamos la distribución de este nodo
+        """
+        data = "\t" * self.nivel + "Distribución: {";
+        
+        for key in self.distr:
+            data += " {} : {},".format(key, self.distr[key])
+            
+        data = data[:-1] + " }\n"
+            
+        data += "\t" * self.nivel + "Atributo: {} \n".format(str(self.atributo));
+        data += "\t" * self.nivel + "Clase: {} \n".format(str(self.clase));
+    
+        if(self.ramas):
+
+            data += "\t" * self.nivel + "{\n";
+            
+            for key in self.ramas:
+                data += "{} : \n".format(key)
+                data += str(self.ramas[key])
+                
+            data += " }\n"
+        
+        return data

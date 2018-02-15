@@ -35,7 +35,16 @@ class ClasificadorDT(Clasificador):
             distr.update({x : total})
         
         raiz = NodoDT(0, distr)
-        print(raiz, distr)
+        
+        ramas = {
+            "parado": NodoDT(nivel = 1, distr = distr),
+            "trabajando": NodoDT(nivel = 1, distr = distr)
+        }
+        
+        raiz.ramas = ramas
+        
+        print(raiz)
+        
         pass
     
     def funcion_recursiva_base():
