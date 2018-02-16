@@ -81,5 +81,17 @@ def entropia(distribucion):
     return -res
 
 """
-Falta la otra parte de la entropia
+Calcula el grado de entropía del criterio de decisión. 
+Media ponderada de los grados de entropía de los conjuntos obtenidos tras la decisión.
 """
+def entropia_media_ponderada(distribucion):
+    
+    res = 0
+    total = sum([distribucion[key] for key in distribucion])
+    
+    for key in distribucion:
+        p = distribucion[key] / total
+        entropia = - (p * math.log(p, 2))
+        res += (fabs(distribucion[key]) / fabs(total)) * entropia
+
+    return res

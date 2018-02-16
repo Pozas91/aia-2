@@ -17,32 +17,9 @@ start_time = comienzo_tiempo_ejecucion()
 
 clasificador = ClasificadorDT(clasificacion, clases, atributos)
 clasificador.entrena(entrenamiento)
-
+#clasificador.imprime()
+entropia(clasificador.get_arbol().distr)
+entropia_media_ponderada(clasificador.get_arbol().distr)
 
 # Tiempo de ejecución obtenido
 tiempo_ejecucion_obtenido(start_time)
-
-def entropia(ejemplos, totalclases, inicial):
-
-    dist = defaultdict(int)
-    numeroclases = 0
-    res = 0.0
-    
-    for x in ejemplos:
-        y = x[-1]
-        if y in dist:
-            dist[y] += 1
-            numeroclases += 1
-        else:
-            dist[y] = 1
-            numeroclases += 1
-
-    print(dist, numeroclases)
-    if inicial:
-        for x in dist:
-            res = res - (dist[x]/numeroclases) * math.log((dist[x]/numeroclases),2)
-    else:
-        for x in dist:
-            res = res - (numeroclases/totalclases)*(- dist[x]/numeroclases)* math.log((dist[x]/numeroclases),2)
-
-    return res

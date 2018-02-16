@@ -59,7 +59,7 @@ class NodoDT(object):
         data = "\t" * self.nivel + "Distribución: {";
         
         for key in self.distr:
-            data += " {} : {},".format(key, self.distr[key])
+            data += " {} : {},".format(key, self.distr[self.distr.index(key)])
             
         data = data[:-1] + " }\n"
             
