@@ -11,7 +11,7 @@ class Clasificador:
         self.clasificacion = clasificacion
         self.clases = clases
         self.atributos = atributos
-        self.__arbol = NodoDT()
+        self.__arbol = None
         
     def entrena(self, entrenamiento, validacion = None):
         try:
@@ -24,35 +24,29 @@ class Clasificador:
     según el modelo obtenido en el entrenamiento.
     """
     def clasifica(self, ejemplo):
-        try:
-            """ LÓGICA AQUÍ """
+        if(self.get_arbol()):
+            pass
+        else:
             raise ClasificadorNoEntrenado('método clasifica')
-        except ClasificadorNoEntrenado as error:
-            """ CONTROLAR EXCEPCIÓN AQUÍ """
-            print(error)
     
     """
     Recibe como argumento un conjunto de prueba y devuelve el rendimiento del
     modelo obtenido en el entrenamiento.
     """
     def evalua(self, prueba):
-        try:
-            """ LÓGICA AQUÍ """
+        if(self.get_arbol()):
+            pass
+        else:
             raise ClasificadorNoEntrenado('método evalua')
-        except ClasificadorNoEntrenado as error:
-            """ CONTROLAR EXCEPCIÓN AQUÍ """
-            print(error)
     
     """
     Imprime de forma legible el modelo obtenido en el entrenamiento.
     """
     def imprime(self):
-        try:
-            """ LÓGICA AQUÍ """
+        if(self.get_arbol()):
+            print(self.get_arbol())
+        else:
             raise ClasificadorNoEntrenado('método imprime')
-        except ClasificadorNoEntrenado as error:
-            """ CONTROLAR EXCEPCIÓN AQUÍ """
-            print(error)
             
     def set_arbol(self, arbol):
         self.__arbol = arbol

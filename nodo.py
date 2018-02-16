@@ -71,6 +71,7 @@ class NodoDT(object):
             data += "\t" * self.nivel + "{\n";
             
             for key in self.ramas:
+                self.ramas[key].nivel = self.nivel + 1;
                 data += "{} : \n".format(key)
                 data += str(self.ramas[key])
                 
