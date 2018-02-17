@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 
 # Importaciones de librerías requeridas
-from copy import deepcopy
-from collections import defaultdict
 from clasificador_dt import ClasificadorDT
-from utils import *
-from datasets.prestamos import clasificacion, atributos, clases, entrenamiento, validacion, prueba
+import utils
+from datasets.prestamos import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
 
 # =============================================================================
 # COMIENZO - TIEMPOS DE EJECUCIÓN
 # =============================================================================
-start_time = comienzo_tiempo_ejecucion()
+start_time = utils.comienzo_tiempo_ejecucion()
 
 # =============================================================================
 # INICIALIZACIÓN EL CLASIFICADOR DT
@@ -37,14 +35,16 @@ clasificador.entrena(entrenamiento)
 # =============================================================================
 # EVALUAMOS
 # =============================================================================
-clasificador.evalua(entrenamiento)
+evaluado = "Rendimiento: {}".format(clasificador.evalua(entrenamiento))
+print(evaluado)
 
 # =============================================================================
 # CLASIFICAMOS
 # =============================================================================
-clasificador.clasifica(entrenamiento)
+clasificado = "Clasificado: '{}'".format(clasificador.clasifica(ejemplo))
+print(clasificado)
 
 # =============================================================================
 # FINAL - TIEMPOS DE EJECUCIÓN
 # =============================================================================
-tiempo_ejecucion_obtenido(start_time)
+utils.tiempo_ejecucion_obtenido(start_time)

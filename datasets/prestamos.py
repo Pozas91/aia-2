@@ -684,3 +684,5 @@ prueba=[['funcionario','ninguno','dos o más','ninguno','divorciado','medios','c
       ['funcionario','dos o más','dos o más','dos o más','divorciado','medios','conceder']]
 
 # =============================================================================
+
+ejemplo = ['funcionario', 'uno', 'dos o más', 'ninguno', 'viudo', 'medios']

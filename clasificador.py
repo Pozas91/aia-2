@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-#Importamos la excepción personalizada ClasificadorNoEntrenado
+# Importamos la excepción personalizada ClasificadorNoEntrenado
 from clasificador_no_encontrado import ClasificadorNoEntrenado
-from nodo import NodoDT
 
-#Clase clasificador
+# Clase clasificador
 class Clasificador:
     
     def __init__(self, clasificacion, clases, atributos):
@@ -25,20 +24,25 @@ class Clasificador:
     """
     def clasifica(self, ejemplo):
         if(self.get_arbol()):
-            
-            res = ""
-            arbol = self.get_arbol()
-            
-            if arbol.ramas != None:
-                for rama in arbol.ramas:
-                    if ejemplo[arbol.atributo] == rama:
-                        res = self.clasifica(arbol.ramas[rama], ejemplo)
-            else:
-                res = arbol.clase
-            
-            return res
+            return self.clasifica_recursiva(ejemplo, self.get_arbol())
         else:
             raise ClasificadorNoEntrenado('método clasifica')
+          
+    """
+    Función recursiva para clasificar el ejemplo
+    """
+    def clasifica_recursiva(self, ejemplo, arbol):
+        
+        res = ""
+        
+        if not arbol.ramas:
+            res = arbol.clase
+        else:
+            for rama in arbol.ramas:
+                if ejemplo[arbol.atributo] == rama:
+                    res = self.clasifica_recursiva(ejemplo, arbol.ramas[rama])
+            
+        return res
     
     """
     Recibe como argumento un conjunto de prueba y devuelve el rendimiento del
@@ -60,7 +64,7 @@ class Clasificador:
             
             rendimiento = res / len(prueba)
             
-            return rendimiento
+            return "{0:.1f}%".format(round(rendimiento * 100, 1))
         else:
             raise ClasificadorNoEntrenado('método evalua')
             
