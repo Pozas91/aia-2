@@ -59,22 +59,22 @@ class NodoDT(object):
         data = "\t" * self.nivel + "Distribución: {";
         
         for key in self.distr:
-            data += " {} : {},".format(key, self.distr[self.distr.index(key)])
+            data += "{} : {}, ".format(key, self.distr[key])
             
-        data = data[:-1] + " }\n"
+        data = data[:-2] + "}\n"
             
         data += "\t" * self.nivel + "Atributo: {} \n".format(str(self.atributo));
-        data += "\t" * self.nivel + "Clase: {} \n".format(str(self.clase));
+        data += "\t" * self.nivel + "Clase: '{}' \n".format(str(self.clase));
     
         if(self.ramas):
 
-            data += "\t" * self.nivel + "{\n";
+            data += "\t" * self.nivel + "Ramas: {\n";
             
             for key in self.ramas:
                 self.ramas[key].nivel = self.nivel + 1;
-                data += "{} : \n".format(key)
+                data += "\t" * self.nivel + "{}: \n".format(key)
                 data += str(self.ramas[key])
                 
-            data += " }\n"
+            data += "\t" * self.nivel + "}\n"
         
         return data

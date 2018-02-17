@@ -44,6 +44,12 @@ def tiempo_ejecucion_obtenido(start_time):
     print("Tiempo de ejecución en segundos: --- %s seconds ---" % (time.time() - start_time))
 
 """
+Calcula el total de datos pasando una distribución.
+"""
+def total_datos_distribucion(distribucion):
+    return sum([distribucion[key] for key in distribucion])
+
+"""
 Calcula la proporción de los datos dados.
 """
 def proporcion_datos(datos):
@@ -72,7 +78,7 @@ Calcula la entropia de un conjunto de datos dada la distribución total.
 def entropia(distribucion):
     
     res = 0
-    total = sum([distribucion[key] for key in distribucion])
+    total = total_datos_distribucion(distribucion)
     
     for key in distribucion:
         p = distribucion[key] / total
@@ -87,11 +93,43 @@ Media ponderada de los grados de entropía de los conjuntos obtenidos tras la de
 def entropia_media_ponderada(distribucion):
     
     res = 0
-    total = sum([distribucion[key] for key in distribucion])
+    total = total_datos_distribucion(distribucion)
     
     for key in distribucion:
         p = distribucion[key] / total
-        entropia = - (p * math.log(p, 2))
-        res += ((distribucion[key]) / (total)) * entropia
+        entropia = -(p * math.log(p, 2))
+        res += (distribucion[key] / total) * entropia
 
     return res
+
+"""
+Selecciona la mejor opción para elegir qué rama es mejor explorar
+"""
+def criterio_decision(medida, datos, atributos, indice_atributos):
+    
+    mejor_atributo = next(iter(indice_atributos))
+    
+    if(medida == "entropia"):
+        pass
+    elif(medida == "error"):
+        pass
+    elif(medida == "gini"):
+        pass
+    else:
+        raise ValueError("La medida {} no está registrada.".format(medida))
+    
+    return mejor_atributo
+
+"""
+Obtiene un nuevo conjunto de datos
+"""
+def filtrar_nuevos_datos(datos, valor, indice):
+    
+    nuevos_datos = []
+    
+    for dato in datos:
+        if valor in dato[indice]:
+            nuevos_datos.append(dato)
+            
+    return nuevos_datos
+    
