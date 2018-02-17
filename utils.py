@@ -92,6 +92,6 @@ def entropia_media_ponderada(distribucion):
     for key in distribucion:
         p = distribucion[key] / total
         entropia = - (p * math.log(p, 2))
-        res += (math.fabs(distribucion[key]) / math.fabs(total)) * entropia
+        res += ((distribucion[key]) / (total)) * entropia
 
     return res
