@@ -32,7 +32,7 @@ class Clasificador:
             if arbol.ramas != None:
                 for rama in arbol.ramas:
                     if ejemplo[arbol.atributo] == rama:
-                        res = clasifica(arbol.ramas[rama],ejemplo)
+                        res = self.clasifica(arbol.ramas[rama], ejemplo)
             else:
                 res = arbol.clase
             
@@ -50,12 +50,11 @@ class Clasificador:
             #Calcula ejemplos correctamente clasificados
             res = 0
             ejemplos = list(prueba)
-            arbol = self.get_arbol()
             
             for x in ejemplos:
                 y = list(x)
                 clase = y.pop(-1)
-                clase_rama = clasifica(arbol, y)
+                clase_rama = self.clasifica(y)
                 if clase_rama == clase:
                     res += 1
             
