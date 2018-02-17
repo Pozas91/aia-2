@@ -16,7 +16,6 @@ start_time = comienzo_tiempo_ejecucion()
 
 clasificador = ClasificadorDT(clasificacion, clases, atributos)
 clasificador.entrena(entrenamiento)
-clasificador.evalua(prueba)
 #print(clasificador.clasifica(entrenamiento))
 #print(clasificador.clasifica(validacion))
 #print(clasificador.clasifica(prueba))
