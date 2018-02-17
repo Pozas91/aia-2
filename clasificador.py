@@ -25,7 +25,18 @@ class Clasificador:
     """
     def clasifica(self, ejemplo):
         if(self.get_arbol()):
-            pass
+            
+            res = ""
+            arbol = self.get_arbol()
+            
+            if arbol.ramas != None:
+                for rama in arbol.ramas:
+                    if ejemplo[arbol.atributo] == rama:
+                        res = clasifica(arbol.ramas[rama],ejemplo)
+            else:
+                res = arbol.clase
+            
+            return res
         else:
             raise ClasificadorNoEntrenado('método clasifica')
     
@@ -35,10 +46,24 @@ class Clasificador:
     """
     def evalua(self, prueba):
         if(self.get_arbol()):
-            pass
+             
+            #Calcula ejemplos correctamente clasificados
+            res = 0
+            ejemplos = list(prueba)
+            arbol = self.get_arbol()
+            
+            for x in ejemplos:
+                y = list(x)
+                clase = y.pop(-1)
+                clase_rama = clasifica(arbol, y)
+                if clase_rama == clase:
+                    res += 1
+            
+            rendimiento = res / len(prueba)
+            
+            return rendimiento
         else:
             raise ClasificadorNoEntrenado('método evalua')
-    
     """
     Imprime de forma legible el modelo obtenido en el entrenamiento.
     """
