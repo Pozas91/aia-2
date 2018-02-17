@@ -63,6 +63,7 @@ class Clasificador:
             return rendimiento
         else:
             raise ClasificadorNoEntrenado('método evalua')
+            
     """
     Imprime de forma legible el modelo obtenido en el entrenamiento.
     """
