@@ -36,6 +36,10 @@ def corte_edad(edad):
     return res
 
 # Función utilizada para crear un conjunto de datos (Entrenamiento, Validación y Prueba)
+# El parámetro datos es un diccionario que contiene:
+#               1 - Atributo y sus respectivas posiciones
+#               2 - Ejemplos (Este valor no es necesario en la entrada ya que no se trabaja con él, 
+#                   pero sí que se devuelve a la salida de la función)
 # =============================================================================
 #         append: Appends object at end.
 # 
@@ -63,7 +67,7 @@ def genera_ejemplos(datos,proporcion):
         listaAux = list()
         
         for titanic in titanic_list:
-            if titanic[0] == atributo:
+            if atributo == titanic[0]:
                 listaAux.append(titanic)
         
         # Calcumos el indice a través del tamaño de la lista y la proporción dada. 
