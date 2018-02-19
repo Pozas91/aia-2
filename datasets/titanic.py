@@ -17,6 +17,8 @@ clasificacion = 'Supervivencia'
 # Las clases representan al atributo Edad que según el corte establecido de edad representa vive (1) o muere (0)
 clases = ['0', '1']
 
+titanic_list = []
+
 # Función utilizada para realizar asignar 0, 1 y 2 en función de la edad y su expectativa de vida
 def corte_edad(edad):
     res = ""
@@ -36,60 +38,36 @@ def corte_edad(edad):
     return res
 
 # Función utilizada para crear un conjunto de datos (Entrenamiento, Validación y Prueba)
-# El parámetro datos es un diccionario que contiene:
-#               1 - Atributo y sus respectivas posiciones
-#               2 - Ejemplos (Este valor no es necesario en la entrada ya que no se trabaja con él, 
-#                   pero sí que se devuelve a la salida de la función)
-# =============================================================================
-#         append: Appends object at end.
-# 
-#         x = [1, 2, 3]
-#         x.append([4, 5])
-#         print (x)
-#         gives you: [1, 2, 3, [4, 5]]
-#         
-#         extend: Extends list by appending elements from the iterable.
-#         
-#         x = [1, 2, 3]
-#         x.extend([4, 5])
-#         print (x)
-#         gives you: [1, 2, 3, 4, 5]
-#
-#         list2 = [1, 2, 3, 4, 5, 6, 7 ];
-#         print "list2[1:5]: ", list2[1:5]
-#         list2[1:5]:  [2, 3, 4, 5]
-# =============================================================================
-def genera_ejemplos(datos,proporcion):
-    datos_dict = dict()
+def genera_ejemplos(datos, proporciones):
+    
+    if(sum(proporciones) != 1):
+        raise ValueError("El total de las proporciones tiene que ser uno")
+    
+    total = len(datos)
     lista_resultante = list()
+    ultimo_limite = 0
+    actual = 0
+    proporciones_totales = len(proporciones)
     
-    for atributo in atributos[0][1]:
-        listaAux = list()
+    for i, proporcion in enumerate(proporciones):
         
-        for titanic in titanic_list:
-            if atributo == titanic[0]:
-                listaAux.append(titanic)
-        
-        # Calcumos el indice a través del tamaño de la lista y la proporción dada. 
-        # Nos quedamos hasta el último índice que cumple esta restricción        
-        indice_lista = int(len(listaAux)*proporcion)
-        # Añadimos en nuestra lista resultante todos los ejemplos
-        lista_resultante.extend(listaAux[datos[atributo]:datos[atributo]+indice_lista])
-        # Almacenamos en el diccionario el indice recorrido en cada iteración por cada atributo
-        datos_dict[atributo] = indice_lista
-    
-    # Almaceno en la posición 0 la lista resultante con todos los ejemplos    
-    datos_dict[0] = lista_resultante
-    
-    return datos_dict
+        if((i + 1) == proporciones_totales):
+            lista = datos[ultimo_limite:]
+        else:
+            limite = int(total * proporcion) + ultimo_limite
+            lista = datos[ultimo_limite:limite]
+            ultimo_limite = limite
+            actual += len(lista)
+            
+        lista_resultante.append(lista)
+
+    return lista_resultante
 
 # Abrimos el fichero titanic.txt para recorrer toda la información incrustada en el fichero
 with open(path, "r", encoding="utf8") as file:
     
     # Ejecutamos el método next(file) para saltarnos la primera linea que incluye las cabeceras
     next(file)
-    
-    titanic_dict = dict()
     
     for line in file.readlines():
         titanic = []
@@ -110,29 +88,28 @@ with open(path, "r", encoding="utf8") as file:
         # Género
         titanic.append(f_aux[-2])
         
-        titanic_dict[int(f_aux[0])] = titanic
+        titanic_list.append(titanic)
         
     file.close()
-    
-# Almacenamos en una lista todo el contenido del diccionario
-titanic_list = list()
-for titanic_dict_index in titanic_dict:
-    titanic_list.append(titanic_dict[titanic_dict_index])
 
 # =============================================================================
 # CONJUNTO DE ENTRENAMIENTO
 # =============================================================================
-entrenamientoAux = genera_ejemplos({"1st":0,"2nd":0,"3rd":0}, 0.6)
-entrenamiento = entrenamientoAux[0]
+ejemplos = genera_ejemplos(titanic_list, [0.6, 0.2, 0.2])
+entrenamiento = ejemplos[0]
 
 # =============================================================================
 # CONJUNTO DE VALIDACIÓN
 # =============================================================================
-validacionAux = genera_ejemplos(entrenamientoAux, 0.2)
-validacion = validacionAux[0]
+validacion = ejemplos[1]
 
 # =============================================================================
 # CONJUNTO DE PRUEBA
 # =============================================================================
-pruebaAux = genera_ejemplos(validacionAux, 0.2)
-prueba = pruebaAux[0]
+prueba = ejemplos[2]
+
+# =============================================================================
+# EJEMPLO
+# =============================================================================
+
+ejemplo = ['3rd', '0', '2', 'female']
