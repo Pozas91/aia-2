@@ -4,6 +4,7 @@ from copy import deepcopy
 from collections import defaultdict
 import time
 import math
+import sys
 
 """
 Crea un diccionario donde la clave es el nombre de la clase
@@ -62,7 +63,7 @@ def proporcion_datos(datos):
     for key in datos:
         result[key] = datos[key] / total
         
-    return result
+    return result 
 
 
 """
@@ -74,15 +75,55 @@ def maxima_frecuencia(datos):
     return {key: datos[key]}
 
 """
-Calcula la entropia de un conjunto de datos dada la distribución total.
-"""    
-def entropia(distribucion):
+Calcula la tasa de error de un conjunto de datos.
+"""
+
+def tasa_error(S):
+
+    total = total_datos_distribucion(S)
+    key = max(S, key = S.get)
+    Pd = S.get(key)
+    
+    return 1 - (Pd / total)
+
+def tasa_error_media_ponderada(S, Si):
+
+    total_S = total_datos_distribucion(S)
+    total_Si = total_datos_distribucion(Si)
+
+    return (total_Si / total_S) * tasa_error(Si)
+
+"""
+Calcula el índice de gini de un conjunto de datos.
+"""
+def gini(S):
     
     res = 0
-    total = total_datos_distribucion(distribucion)
+    total = total_datos_distribucion(S)
     
-    for key in distribucion:
-        p = distribucion[key] / total
+    for key in S:
+        p = S[key] / total
+        res += math.pow(p, 2)
+
+    return 1 - res
+
+def gini_media_ponderada(S, Si):
+
+    total_S = total_datos_distribucion(S)
+    total_Si = total_datos_distribucion(Si)
+
+    return (total_Si / total_S) * gini(Si)
+
+"""
+Calcula la entropia de un conjunto de datos dada la distribución total.
+"""    
+def entropia(S):
+    
+    res = 0
+    total = total_datos_distribucion(S)
+    
+    for key in S:
+        p = S[key] / total
         res += p * math.log(p, 2)
 
     return -res
@@ -91,33 +132,75 @@ def entropia(distribucion):
 Calcula el grado de entropía del criterio de decisión. 
 Media ponderada de los grados de entropía de los conjuntos obtenidos tras la decisión.
 """
-def entropia_media_ponderada(distribucion):
+def entropia_media_ponderada(S, Si):
     
-    res = 0
-    total = total_datos_distribucion(distribucion)
+    total_S = total_datos_distribucion(S)
+    total_Si = total_datos_distribucion(Si)
+
+    return (total_Si / total_S) * entropia(Si)
+
+"""
+Calcula la ganacia de información
+"""
+def ganancia_informacion(S, Si):
+    # TODO
+    return entropia(S) - entropia(S)
+
+"""
+Calcula la media ponderada según el criterio de medida
+"""
+def calcular_media_ponderada(medida, S, Si):
     
-    for key in distribucion:
-        p = distribucion[key] / total
-        entropia = -(p * math.log(p, 2))
-        res += (distribucion[key] / total) * entropia
-
-    return res
-
+    if(medida == "entropia"):
+        resultado = entropia_media_ponderada(S, Si)
+    elif(medida == "error"):
+        resultado = tasa_error_media_ponderada(S, Si)
+    elif(medida == "gini"):
+        resultado = gini_media_ponderada(S, Si)
+    else:
+        raise ValueError("La medida {} no está registrada.".format(medida))
+        
+    return resultado
+                
 """
 Selecciona la mejor opción para elegir qué rama es mejor explorar
 """
 def criterio_decision(medida, datos, atributos, indice_atributos):
     
-    mejor_atributo = next(iter(indice_atributos))
+    S = distribucion_clases(datos)
+    Si = []
+    Si_dict = dict()
     
-    if(medida == "entropia"):
-        pass
-    elif(medida == "error"):
-        pass
-    elif(medida == "gini"):
-        pass
-    else:
-        raise ValueError("La medida {} no está registrada.".format(medida))
+    # Buscamos en cada atributo restante
+    for atributo, indice in indice_atributos.items():
+        for valor in atributos[indice][1]:
+            # Cogemos los datos correspondientes a ese atributo y valor
+            datos_filtrados = [dato for dato in datos if dato[indice] == valor]
+            
+            # Realizamos la distribución de cada conjunto de datos
+            Si.append(distribucion_clases(datos_filtrados))
+        
+        Si_dict.update({atributo: Si})
+        Si = []
+    
+    """
+    Declaramos la variable total para calcular cada una de las medias
+    ponderadas
+    """
+    total = 0
+    minimo = sys.maxsize
+    mejor_atributo = ""
+        
+    for atributo in Si_dict:
+        for Si in Si_dict[atributo]:
+            
+            # Si 'Si' no está vacio calculo su media
+            if not not Si:
+                total += calcular_media_ponderada(medida, S, Si)
+            
+        if(total <= minimo):
+            minimo = total
+            mejor_atributo = atributo
     
     return mejor_atributo
 
