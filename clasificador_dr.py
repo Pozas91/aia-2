@@ -13,5 +13,5 @@ class ClasificadorDR(Clasificador):
         categorias = utils.obtener_frecuencia_ordenada(entrenamiento)
         
         for categoria in categorias:
-            
+            pass
             
