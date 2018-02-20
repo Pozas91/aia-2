@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 from collections import defaultdict
+from collections import Counter
 import time
 import math
 import sys
@@ -216,4 +217,16 @@ def filtrar_nuevos_datos(datos, valor, indice):
             nuevos_datos.append(dato)
             
     return nuevos_datos
-    
+
+"""
+Obtener la categoría con más frecuencia
+"""    
+def obtener_frecuencia_ordenada(lista):
+    dict_aux = distribucion_clases(lista)
+    resultado = dict()
+    [resultado.update({k: dict_aux[k]}) for k in sorted(dict_aux, key=dict_aux.get)]
+    return resultado
+
+"""
+Me
+"""

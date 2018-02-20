@@ -2,6 +2,7 @@
 
 # Importaciones de librerías requeridas
 from clasificador_dt import ClasificadorDT
+from clasificador_dr import ClasificadorDR
 import utils
 from datasets.prestamos import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
 
@@ -14,6 +15,11 @@ start_time = utils.comienzo_tiempo_ejecucion()
 # INICIALIZACIÓN EL CLASIFICADOR DT
 # =============================================================================
 clasificador = ClasificadorDT(clasificacion, clases, atributos)
+
+# =============================================================================
+# INICIALIZACIÓN EL CLASIFICADOR DR
+# =============================================================================
+clasificador_dr = ClasificadorDR(clasificacion, clases, atributos)
 
 # =============================================================================
 # INFORMACIÓN UTILIZADA DEL DATASET
@@ -31,6 +37,7 @@ print("*************************************************")
 # ENTRENAMOS
 # =============================================================================
 clasificador.entrena(entrenamiento, medida = "gini")
+clasificador_dr.entrena(entrenamiento)
 
 # =============================================================================
 # EVALUAMOS
