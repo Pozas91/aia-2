@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # Importaciones de librerías requeridas
-from clasificador_dt import ClasificadorDT
 import utils
-from datasets.prestamos import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
+from clasificador_dt import ClasificadorDT
+from datasets.titanic import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
 
 # =============================================================================
 # COMIENZO - TIEMPOS DE EJECUCIÓN
@@ -30,7 +30,7 @@ print("*************************************************")
 # =============================================================================
 # ENTRENAMOS
 # =============================================================================
-clasificador.entrena(entrenamiento, medida = "gini")
+clasificador.entrena(entrenamiento, medida="entropia")
 
 # =============================================================================
 # EVALUAMOS
