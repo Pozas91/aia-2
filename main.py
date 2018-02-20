@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 
 # Importaciones de librerías requeridas
+<<<<<<< HEAD
 from clasificador_dt import ClasificadorDT
 from clasificador_dr import ClasificadorDR
+=======
+>>>>>>> fce044b7d4023b0659ee64e674299d05631cad9e
 import utils
-from datasets.prestamos import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
+from clasificador_dt import ClasificadorDT
+from datasets.titanic import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
 
 # =============================================================================
 # COMIENZO - TIEMPOS DE EJECUCIÓN
