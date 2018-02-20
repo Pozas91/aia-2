@@ -1,16 +1,50 @@
 # -*- coding: utf-8 -*-
 
 # Importaciones de librerías requeridas
-import time
-from copy import deepcopy
-from collections import defaultdict
+import utils
+from clasificador_dt import ClasificadorDT
+from datasets.titanic import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
 
-# Variables globales
+# =============================================================================
+# COMIENZO - TIEMPOS DE EJECUCIÓN
+# =============================================================================
+start_time = utils.comienzo_tiempo_ejecucion()
 
+# =============================================================================
+# INICIALIZACIÓN EL CLASIFICADOR DT
+# =============================================================================
+clasificador = ClasificadorDT(clasificacion, clases, atributos)
 
-# Variable usada para medir los tiempos de ejecución
-start_time = time.time()
+# =============================================================================
+# INFORMACIÓN UTILIZADA DEL DATASET
+# =============================================================================
+print("Clasificación: " + clasificacion)
+print("Atributos: [{0}]".format(', '.join(map(str, atributos))))
+print("Clases: [{0}]".format(', '.join(map(str, clases))))
+print("Conjunto de entrenamiento: [{0}]".format(', '.join(map(str, entrenamiento))))
+print("Conjunto de validacion: [{0}]".format(', '.join(map(str, validacion))))
+print("Conjunto de prueba: [{0}]".format(', '.join(map(str, prueba))))
 
+print("*************************************************")
 
-# Tiempo de ejecución obtenido
-print("Tiempo de ejecución en segundos: --- %s seconds ---" % (time.time() - start_time))
+# =============================================================================
+# ENTRENAMOS
+# =============================================================================
+clasificador.entrena(entrenamiento, medida="entropia")
+
+# =============================================================================
+# EVALUAMOS
+# =============================================================================
+evaluado = "Rendimiento: {}".format(clasificador.evalua(entrenamiento))
+print(evaluado)
+
+# =============================================================================
+# CLASIFICAMOS
+# =============================================================================
+clasificado = "Clasificado: '{}'".format(clasificador.clasifica(ejemplo))
+print(clasificado)
+
+# =============================================================================
+# FINAL - TIEMPOS DE EJECUCIÓN
+# =============================================================================
+utils.tiempo_ejecucion_obtenido(start_time)
