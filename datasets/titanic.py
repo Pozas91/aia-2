@@ -126,6 +126,4 @@ prueba = ejemplos[2]
 # EJEMPLO
 # =============================================================================
 
-ejemplo = ['3rd', '1', 'female']
-
-print(ejemplo)
+ejemplo = ['1st', '1', 'male']

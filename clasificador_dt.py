@@ -48,9 +48,8 @@ class ClasificadorDT(Clasificador):
         """
         Comprobar caso base por máxima frecuencia
         """
-        frecuencia = utils.maxima_frecuencia(proporcion)
-        max_frecuencia_key = next(iter(frecuencia))
-        maxima_frecuencia_alcanzada = frecuencia[max_frecuencia_key] >= maxima_frecuencia
+        max_frecuencia_key = utils.maxima_frecuencia(proporcion)
+        maxima_frecuencia_alcanzada = proporcion[max_frecuencia_key] >= maxima_frecuencia
 
         """
         Comprobar caso base por mínimo ejemplos
@@ -166,7 +165,7 @@ class ClasificadorDT(Clasificador):
 
             rendimiento = res / len(prueba)
 
-            return "{0:.1f}%".format(round(rendimiento * 100, 1))
+            return rendimiento
         else:
             raise ClasificadorNoEntrenado('método evalua')
 

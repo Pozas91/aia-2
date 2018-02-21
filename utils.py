@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from copy import deepcopy
 from collections import defaultdict
 from collections import Counter
 import time
@@ -82,13 +81,12 @@ def proporcion_datos(datos):
 
 
 """
-Calcula la máxima frecuencia, dado un conjunto de datos de ejemplo
+Devuelve la clave de la máxima frecuencia, dado un conjunto de datos de ejemplo
 """
 
 
 def maxima_frecuencia(datos):
-    key = max(datos, key=datos.get)
-    return {key: datos[key]}
+    return max(datos, key=datos.get)
 
 
 """
