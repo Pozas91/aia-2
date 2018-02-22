@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 # Importaciones de librerías requeridas
-import utils
 from clasificador_dt import ClasificadorDT
-from datasets.titanic import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
+from clasificador_dt_poda import ClasificadorDTPoda
+from clasificador_dr import ClasificadorDR
+import utils
+from datasets.prestamos import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
 
 # =============================================================================
 # COMIENZO - TIEMPOS DE EJECUCIÓN
@@ -13,7 +15,17 @@ start_time = utils.comienzo_tiempo_ejecucion()
 # =============================================================================
 # INICIALIZACIÓN EL CLASIFICADOR DT
 # =============================================================================
-clasificador = ClasificadorDT(clasificacion, clases, atributos)
+clasificador_dt = ClasificadorDT(clasificacion, clases, atributos)
+
+# =============================================================================
+# INICIALIZACIÓN EL CLASIFICADOR DT PODA
+# =============================================================================
+clasificador_dt_poda = ClasificadorDTPoda(clasificacion, clases, atributos)
+
+# =============================================================================
+# INICIALIZACIÓN EL CLASIFICADOR DR
+# =============================================================================
+clasificador_dr = ClasificadorDR(clasificacion, clases, atributos)
 
 # =============================================================================
 # INFORMACIÓN UTILIZADA DEL DATASET
@@ -30,18 +42,27 @@ print("*************************************************")
 # =============================================================================
 # ENTRENAMOS
 # =============================================================================
-clasificador.entrena(entrenamiento, medida="entropia")
+clasificador_dt.entrena(entrenamiento, medida="entropia")
+clasificador_dt_poda.entrena(prueba, validacion=validacion, medida="entropia")
 
 # =============================================================================
 # EVALUAMOS
 # =============================================================================
-evaluado = "Rendimiento: {}".format(clasificador.evalua(entrenamiento))
+rendimiento = clasificador_dt.evalua(prueba)
+evaluado = "Rendimiento base: {0:.1f}%".format(round(rendimiento * 100, 1))
+print(evaluado)
+
+rendimiento = clasificador_dt_poda.evalua(prueba)
+evaluado = "Rendimiento con post-poda: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
 # =============================================================================
 # CLASIFICAMOS
 # =============================================================================
-clasificado = "Clasificado: '{}'".format(clasificador.clasifica(ejemplo))
+clasificado = "Clasificado base: '{}'".format(clasificador_dt.clasifica(ejemplo))
+print(clasificado)
+
+clasificado = "Clasificado post-poda: '{}'".format(clasificador_dt_poda.clasifica(ejemplo))
 print(clasificado)
 
 # =============================================================================
