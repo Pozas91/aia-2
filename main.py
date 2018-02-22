@@ -48,11 +48,11 @@ clasificador_dt_poda.entrena(prueba, validacion=validacion, medida="entropia")
 # =============================================================================
 # EVALUAMOS
 # =============================================================================
-rendimiento = clasificador_dt.evalua(validacion)
+rendimiento = clasificador_dt.evalua(prueba)
 evaluado = "Rendimiento base: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
-rendimiento = clasificador_dt_poda.evalua(validacion)
+rendimiento = clasificador_dt_poda.evalua(prueba)
 evaluado = "Rendimiento con post-poda: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
