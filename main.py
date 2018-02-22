@@ -43,21 +43,26 @@ print("*************************************************")
 # ENTRENAMOS
 # =============================================================================
 clasificador_dt.entrena(entrenamiento, medida="entropia")
-
 clasificador_dt_poda.entrena(prueba, validacion=validacion, medida="entropia")
-clasificador_dr.entrena(entrenamiento)
 
 # =============================================================================
 # EVALUAMOS
 # =============================================================================
-rendimiento = clasificador_dt.evalua(entrenamiento)
-evaluado = "Rendimiento: {0:.1f}%".format(round(rendimiento * 100, 1))
+rendimiento = clasificador_dt.evalua(validacion)
+evaluado = "Rendimiento base: {0:.1f}%".format(round(rendimiento * 100, 1))
+print(evaluado)
+
+rendimiento = clasificador_dt_poda.evalua(validacion)
+evaluado = "Rendimiento con post-poda: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
 # =============================================================================
 # CLASIFICAMOS
 # =============================================================================
-clasificado = "Clasificado: '{}'".format(clasificador_dt.clasifica(ejemplo))
+clasificado = "Clasificado base: '{}'".format(clasificador_dt.clasifica(ejemplo))
+print(clasificado)
+
+clasificado = "Clasificado post-poda: '{}'".format(clasificador_dt_poda.clasifica(ejemplo))
 print(clasificado)
 
 # =============================================================================

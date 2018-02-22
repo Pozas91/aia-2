@@ -5,6 +5,40 @@ from collections import Counter
 import time
 import math
 import sys
+from nodo import NodoDT
+
+"""
+Comprueba si un nodo de un arbol es interior
+"""
+
+
+def es_interior(nodo):
+    if nodo.ramas:
+        return len([rama for rama in nodo.ramas if rama]) > 0
+    else:
+        return False
+
+
+'''
+Obtiene el nodo raiz de un nuevo arbol que llega hasta el nodo intermedio indicado, que se convertirá en un nodo hoja.
+'''
+def obtener_nuevo_arbol(raiz, objetivo):
+    return obtener_nuevo_arbol_recursivo(raiz, objetivo)
+
+def obtener_nuevo_arbol_recursivo(actual, objetivo):
+
+    if actual == objetivo:
+        key = maxima_frecuencia(objetivo.distr)
+        nodo = NodoDT(None, objetivo.distr, None, key)
+    else:
+        if actual.ramas:
+            for key in actual.ramas:
+                hijo = actual.ramas[key]
+                actual.ramas[key] = obtener_nuevo_arbol_recursivo(hijo, objetivo)
+
+        nodo = actual
+
+    return nodo
 
 """
 Crea un diccionario donde la clave es el nombre de la clase
