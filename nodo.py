@@ -50,7 +50,18 @@ class NodoDT(object):
         tabuladores como en el nivel que nos encontramos.
         """
         self.nivel = nivel
-        
+
+    def __eq__(self, o: object) -> bool:
+        return (
+            self.__class__ == o.__class__ and
+            self.distr == o.distr and
+            self.atributo == o.atributo and
+            self.clase == o.clase
+        )
+
+    def __hash__(self) -> int:
+        return super().__hash__()
+
     def __str__(self):
         
         """
