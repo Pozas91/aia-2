@@ -55,3 +55,5 @@ print(clasificado)
 # FINAL - TIEMPOS DE EJECUCIÓN
 # =============================================================================
 utils.tiempo_ejecucion_obtenido(start_time)
+
+utils.ejemplos_cubiertos([(0, 'parado'), (1, 'ninguno'), (3, 'dos o más')], entrenamiento)

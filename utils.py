@@ -11,6 +11,8 @@ import sys
 Crea un diccionario donde la clave es el nombre de la clase
 y el valor es el número de veces que aparece esta.
 """
+
+
 def distribucion_clases(datos):
     res = defaultdict(int)
 
@@ -23,6 +25,8 @@ def distribucion_clases(datos):
 Crea un diccionario donde la clave es el nombre del atributo y el valor
 es el índice de este.
 """
+
+
 def indice_atributos(atributos):
     res = dict()
 
@@ -34,6 +38,8 @@ def indice_atributos(atributos):
 """
 Función utilizada para capturar el momento en el que comienza todo.
 """
+
+
 def comienzo_tiempo_ejecucion():
     # Variable usada para medir los tiempos de ejecución
     start_time = time.time()
@@ -43,6 +49,8 @@ def comienzo_tiempo_ejecucion():
 """
 Función utilizada para calcular los tiempos de ejecución de la aplicación en base al comienzo.
 """
+
+
 def tiempo_ejecucion_obtenido(start_time):
     # Tiempo de ejecución obtenido
     print("Tiempo de ejecución en segundos: --- %s seconds ---" % (time.time() - start_time))
@@ -51,6 +59,8 @@ def tiempo_ejecucion_obtenido(start_time):
 """
 Calcula el total de datos pasando una distribución.
 """
+
+
 def total_datos_distribucion(distribucion):
     return sum([distribucion[key] for key in distribucion])
 
@@ -58,6 +68,8 @@ def total_datos_distribucion(distribucion):
 """
 Calcula la proporción de los datos dados.
 """
+
+
 def proporcion_datos(datos):
     result = dict()
 
@@ -72,6 +84,8 @@ def proporcion_datos(datos):
 """
 Calcula la máxima frecuencia, dado un conjunto de datos de ejemplo
 """
+
+
 def maxima_frecuencia(datos):
     key = max(datos, key=datos.get)
     return {key: datos[key]}
@@ -80,6 +94,8 @@ def maxima_frecuencia(datos):
 """
 Calcula la tasa de error de un conjunto de datos.
 """
+
+
 def tasa_error(S):
     total = total_datos_distribucion(S)
     key = max(S, key=S.get)
@@ -98,6 +114,8 @@ def tasa_error_media_ponderada(S, Si):
 """
 Calcula el índice de gini de un conjunto de datos.
 """
+
+
 def gini(S):
     res = 0
     total = total_datos_distribucion(S)
@@ -119,6 +137,8 @@ def gini_media_ponderada(S, Si):
 """
 Calcula la entropia de un conjunto de datos dada la distribución total.
 """
+
+
 def entropia(S):
     res = 0
     total = total_datos_distribucion(S)
@@ -134,6 +154,8 @@ def entropia(S):
 Calcula el grado de entropía del criterio de decisión. 
 Media ponderada de los grados de entropía de los conjuntos obtenidos tras la decisión.
 """
+
+
 def entropia_media_ponderada(S, Si):
     total_S = total_datos_distribucion(S)
     total_Si = total_datos_distribucion(Si)
@@ -144,6 +166,8 @@ def entropia_media_ponderada(S, Si):
 """
 Calcula la ganacia de información
 """
+
+
 def ganancia_informacion(S, Si):
     # TODO
     return entropia(S) - entropia(S)
@@ -152,6 +176,8 @@ def ganancia_informacion(S, Si):
 """
 Calcula la media ponderada según el criterio de medida
 """
+
+
 def calcular_media_ponderada(medida, S, Si):
     if (medida == "entropia"):
         resultado = entropia_media_ponderada(S, Si)
@@ -168,6 +194,8 @@ def calcular_media_ponderada(medida, S, Si):
 """
 Selecciona la mejor opción para elegir qué rama es mejor explorar
 """
+
+
 def criterio_decision(medida, datos, atributos, indice_atributos):
     S = distribucion_clases(datos)
     Si = []
@@ -210,6 +238,8 @@ def criterio_decision(medida, datos, atributos, indice_atributos):
 """
 Obtiene un nuevo conjunto de datos
 """
+
+
 def filtrar_nuevos_datos(datos, valor, indice):
     nuevos_datos = []
 
@@ -222,9 +252,132 @@ def filtrar_nuevos_datos(datos, valor, indice):
 
 """
 Obtener la categoría con más frecuencia
-"""    
+"""
+
+
 def obtener_frecuencia_ordenada(lista):
     dict_aux = distribucion_clases(lista)
     resultado = dict()
     [resultado.update({k: dict_aux[k]}) for k in sorted(dict_aux, key=dict_aux.get)]
     return resultado
+
+
+"""
+Devuelve los ejemplos cubiertos que quedan cubiertos por la regla R en el conjunto de datos D
+"""
+
+
+def ejemplos_cubiertos(R, D):
+    ejemplos_cubiertos = D
+
+    for condicion in R:
+        indice_atributo, valor = condicion
+        ejemplos_cubiertos = [ejemplo for ejemplo in ejemplos_cubiertos if ejemplo[indice_atributo] == valor]
+
+    return ejemplos_cubiertos
+
+
+"""
+Devuelve los ejemplos que están correctamente cubiertos por la regla R en el conjunto de datos D, y que coincidan con
+la clase C.
+"""
+
+
+def ejemplos_correctamente_cubiertos(R, D, C):
+    ejemplos = ejemplos_cubiertos(R, D)
+
+    return [ejemplo for ejemplo in ejemplos if ejemplo[-1] == C]
+
+
+"""
+Devuelve la frecuencia relativa para la regla R, en el conjunto de datos D, y para la clase C
+"""
+
+
+def frecuencia_relativa(R, D, C):
+    t = len(ejemplos_cubiertos(R, D))
+    p = len(ejemplos_correctamente_cubiertos(R, D, C))
+
+    return p / t
+
+
+"""
+Una funcion que dada los atributos A y un conjuntos de datos D, devuelva una regla para ese conjunto de datos
+"""
+# =============================================================================
+#         Una regla tiene la siguiente forma:
+#
+#           [condicion, condicion, condicion]
+#           condicion = (indice_atributo, valor_deseado)
+#           [(indice, valor), (indice, valor), (indice, valor)]
+#
+#         
+#         reglas = [
+#             ([(1, 'uno'), (0, 'parado'), (3, 'dos o mas')], 'estudiar'),
+#             ([(1, 'dos'), (0, 'parado'), (3, 'dos o mas')], 'no conceder'),
+#         ]
+#
+#         TENER EN CUENTA QUE SI HAY EMPATE ENTRE FRECUENCIA RELATIVA COGEMOS LA QUE MÁS CUBRA
+#         Y SI NOS QUEDAMOS SIN EJEMPLOS TAMBIÉN PARA
+#             
+#         donde cada tupla tiene en su primera posición el indice correspondiente al atributo y su segunda posición
+#         equivale al valor de dicho atributo
+#         
+#         POSICIÓN 0 -> EMPLEO, 
+#         POSICIÓN 1 -> PRODUCTO, 
+#         POSICIÓN 2 -> PROPIEDADES
+#         POSICIÓN 3 -> HIJOS
+#         POSICIÓN 4 -> ESTADO CIVIL
+#         POSICIÓN 5 -> INGRESOS
+# =============================================================================
+def obtener_regla(A, D):
+    
+    indices = indice_atributos(A)
+    regla_list = list()
+    max_ejemplos_cubiertos = 0
+    tupla_max = tuple()
+    
+    for atributo in indices:
+        
+        for valor_atributo in A[indices[atributo]][1]:
+            
+            # Genero la tupla con el indice del atributo y su valor
+            tupla = (indices[atributo], valor_atributo)
+            
+            # Añado la tupla nueva a la copia de la lista
+            regla_list.append(tupla)
+            
+            # Calculo cuantos ejemplos cubrimos con dicha regla
+            ej_cubiertos = len(ejemplos_cubiertos(regla_list, D))
+            
+            # Compruebo si el recubrimiento de ejemplos es más grande que el maximo
+            if ej_cubiertos > max_ejemplos_cubiertos:
+                max_ejemplos_cubiertos = ej_cubiertos
+                tupla_max = tupla
+            
+            # Elimino la tupla que insertamos al principio
+            regla_list.remove(regla_list[-1])
+        
+        regla_list.append(tupla_max)
+        max_ejemplos_cubiertos = 0
+    
+    return regla_list
+    
+
+"""
+Función encargada de filtrar un conjunto de entrenamiento dada una clase
+"""
+def filtrar_clase(lista, clase):
+    return [item for item in lista if item[6] == clase]
+    
+
+"""
+Una funcion que para una clase entera, devuelva todas las reglas de esa clase,
+itera sobre la anterior y con el resto de atributos que no estén cubiertos por esa primera regla, se llama a la anterior
+con el conjunto de ejemplos restante para crear otra regla, hasta que no queden ejemplos
+"""
+
+"""
+Por último, otra que itere sobre todas las clases y llame a la anterior, pero en esta funcion en concreto no se reducen
+los ejemplos.
+"""
