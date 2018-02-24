@@ -376,6 +376,10 @@ Una funcion que para una clase entera, devuelva todas las reglas de esa clase,
 itera sobre la anterior y con el resto de atributos que no estén cubiertos por esa primera regla, se llama a la anterior
 con el conjunto de ejemplos restante para crear otra regla, hasta que no queden ejemplos
 """
+def obtener_reglas_por_clases(A, D, C):
+    filtro_conjunto_datos = filtrar_clase(D, C)
+    
+    return obtener_regla(A, filtro_conjunto_datos)
 
 """
 Por último, otra que itere sobre todas las clases y llame a la anterior, pero en esta funcion en concreto no se reducen
