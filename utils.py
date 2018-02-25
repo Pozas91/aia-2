@@ -338,29 +338,10 @@ Una funcion que dada los atributos A y un conjuntos de datos D, devuelva una reg
 """
 # =============================================================================
 #         Una regla tiene la siguiente forma:
-#
-#           [condicion, condicion, condicion]
-#           condicion = (indice_atributo, valor_deseado)
-#           [(indice, valor), (indice, valor), (indice, valor)]
-#
-#         
 #         reglas = [
 #             ([(1, 'uno'), (0, 'parado'), (3, 'dos o mas')], 'estudiar'),
 #             ([(1, 'dos'), (0, 'parado'), (3, 'dos o mas')], 'no conceder'),
 #         ]
-#
-#         TENER EN CUENTA QUE SI HAY EMPATE ENTRE FRECUENCIA RELATIVA COGEMOS LA QUE MÁS CUBRA
-#         Y SI NOS QUEDAMOS SIN EJEMPLOS TAMBIÉN PARA
-#             
-#         donde cada tupla tiene en su primera posición el indice correspondiente al atributo y su segunda posición
-#         equivale al valor de dicho atributo
-#         
-#         POSICIÓN 0 -> EMPLEO, 
-#         POSICIÓN 1 -> PRODUCTO, 
-#         POSICIÓN 2 -> PROPIEDADES
-#         POSICIÓN 3 -> HIJOS
-#         POSICIÓN 4 -> ESTADO CIVIL
-#         POSICIÓN 5 -> INGRESOS
 # =============================================================================
 def obtener_regla(A, D):
     
@@ -417,9 +398,9 @@ def obtener_reglas_por_clases(A, D, C):
     reglas_list = list()
     
     while len(filtro_conjunto_datos) != 0:
-        regla = obtener_regla(A, filtro_conjunto_datos)
+        regla = (obtener_regla(A, filtro_conjunto_datos), C)
         reglas_list.append(regla)
-        filtro_conjunto_datos = list(filter(lambda x: x not in ejemplos_cubiertos(regla, filtro_conjunto_datos), filtro_conjunto_datos))
+        filtro_conjunto_datos = list(filter(lambda x: x not in ejemplos_cubiertos(regla[0], filtro_conjunto_datos), filtro_conjunto_datos))
     
     return reglas_list
 
@@ -439,5 +420,3 @@ def obtener_total_reglas(A, D, C):
     reglas_list = sum(reglas_list, [])
     
     return reglas_list
-    
-    

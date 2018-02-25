@@ -45,6 +45,8 @@ print("*************************************************")
 clasificador_dt.entrena(entrenamiento, medida="entropia")
 clasificador_dt_poda.entrena(prueba, validacion=validacion, medida="entropia")
 
+clasificador_dr.entrena(entrenamiento)
+
 # =============================================================================
 # EVALUAMOS
 # =============================================================================
