@@ -399,6 +399,8 @@ def obtener_regla(A, D):
 """
 Función encargada de filtrar un conjunto de entrenamiento dada una clase
 """
+
+
 def filtrar_clase(lista, clase):
     return [item for item in lista if item[6] == clase]
     
@@ -408,12 +410,34 @@ Una funcion que para una clase entera, devuelva todas las reglas de esa clase,
 itera sobre la anterior y con el resto de atributos que no estén cubiertos por esa primera regla, se llama a la anterior
 con el conjunto de ejemplos restante para crear otra regla, hasta que no queden ejemplos
 """
+
+
 def obtener_reglas_por_clases(A, D, C):
     filtro_conjunto_datos = filtrar_clase(D, C)
+    reglas_list = list()
     
-    return obtener_regla(A, filtro_conjunto_datos)
+    while len(filtro_conjunto_datos) != 0:
+        regla = obtener_regla(A, filtro_conjunto_datos)
+        reglas_list.append(regla)
+        filtro_conjunto_datos = list(filter(lambda x: x not in ejemplos_cubiertos(regla, filtro_conjunto_datos), filtro_conjunto_datos))
+    
+    return reglas_list
 
 """
 Por último, otra que itere sobre todas las clases y llame a la anterior, pero en esta funcion en concreto no se reducen
 los ejemplos.
 """
+
+
+def obtener_total_reglas(A, D, C):
+    reglas_list = list()
+    
+    for clase in C:
+        reglas_list.append(obtener_reglas_por_clases(A, D, clase))
+    
+    # Aplanar lista de listas
+    reglas_list = sum(reglas_list, [])
+    
+    return reglas_list
+    
+    
