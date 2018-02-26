@@ -4,6 +4,7 @@ import utils
 from clasificador import Clasificador
 from clasificador_no_encontrado import ClasificadorNoEntrenado
 from nodo import NodoDT
+from copy import deepcopy
 
 
 class ClasificadorDT(Clasificador):
@@ -40,7 +41,6 @@ class ClasificadorDT(Clasificador):
 
     def entrena_recursiva(self, datos_iniciales, indice_atributos, datos, maxima_frecuencia, minimo_ejemplos, medida):
 
-        nodo = None
         distribucion_total = utils.distribucion_clases(datos_iniciales)
         distribucion_actual = utils.distribucion_clases(datos)
         proporcion = utils.proporcion_datos(distribucion_actual)
@@ -124,7 +124,7 @@ class ClasificadorDT(Clasificador):
         según el modelo obtenido en el entrenamiento.
         """
     def clasifica(self, ejemplo):
-        if (self.get_arbol()):
+        if self.get_arbol():
             return self.clasifica_recursiva(ejemplo, self.get_arbol())
         else:
             raise ClasificadorNoEntrenado('método clasifica')
@@ -154,10 +154,9 @@ class ClasificadorDT(Clasificador):
 
             # Calcula ejemplos correctamente clasificados
             res = 0
-            ejemplos = list(prueba)
 
-            for x in ejemplos:
-                y = list(x)
+            for x in prueba:
+                y = deepcopy(x)
                 clase = y.pop(-1)
                 clase_rama = self.clasifica(y)
                 if clase_rama == clase:

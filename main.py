@@ -4,6 +4,7 @@
 from clasificador_dt import ClasificadorDT
 from clasificador_dt_poda import ClasificadorDTPoda
 from clasificador_dr import ClasificadorDR
+from clasificador_dr_poda import ClasificadorDRPoda
 import utils
 from datasets.prestamos import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
 
@@ -28,6 +29,11 @@ clasificador_dt_poda = ClasificadorDTPoda(clasificacion, clases, atributos)
 clasificador_dr = ClasificadorDR(clasificacion, clases, atributos)
 
 # =============================================================================
+# INICIALIZACIÓN EL CLASIFICADOR DR PODA
+# =============================================================================
+clasificador_dr_poda = ClasificadorDRPoda(clasificacion, clases, atributos)
+
+# =============================================================================
 # INFORMACIÓN UTILIZADA DEL DATASET
 # =============================================================================
 print("Clasificación: " + clasificacion)
@@ -43,28 +49,43 @@ print("*************************************************")
 # ENTRENAMOS
 # =============================================================================
 clasificador_dt.entrena(entrenamiento, medida="entropia")
-clasificador_dt_poda.entrena(prueba, validacion=validacion, medida="entropia")
+# clasificador_dt_poda.entrena(prueba, validacion=validacion, medida="entropia")
 
 clasificador_dr.entrena(entrenamiento)
+clasificador_dr_poda.entrena(entrenamiento, validacion=validacion)
 
 # =============================================================================
 # EVALUAMOS
 # =============================================================================
 rendimiento = clasificador_dt.evalua(prueba)
-evaluado = "Rendimiento base: {0:.1f}%".format(round(rendimiento * 100, 1))
+evaluado = "Rendimiento árbol base: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
-rendimiento = clasificador_dt_poda.evalua(prueba)
-evaluado = "Rendimiento con post-poda: {0:.1f}%".format(round(rendimiento * 100, 1))
+# rendimiento = clasificador_dt_poda.evalua(prueba)
+# evaluado = "Rendimiento árbol con post-poda: {0:.1f}%".format(round(rendimiento * 100, 1))
+# print(evaluado)
+
+rendimiento = clasificador_dr.evalua(prueba)
+evaluado = "Rendimiento reglas base: {0:.1f}%".format(round(rendimiento * 100, 1))
+print(evaluado)
+
+rendimiento = clasificador_dr_poda.evalua(prueba)
+evaluado = "Rendimiento reglas con post-poda: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
 # =============================================================================
 # CLASIFICAMOS
 # =============================================================================
-clasificado = "Clasificado base: '{}'".format(clasificador_dt.clasifica(ejemplo))
+clasificado = "Clasificado árbol base: '{}'".format(clasificador_dt.clasifica(ejemplo))
 print(clasificado)
 
-clasificado = "Clasificado post-poda: '{}'".format(clasificador_dt_poda.clasifica(ejemplo))
+# clasificado = "Clasificado árbol con post-poda: '{}'".format(clasificador_dt_poda.clasifica(ejemplo))
+# print(clasificado)
+
+clasificado = "Clasificador reglas base: '{}'".format(clasificador_dr.clasifica(ejemplo))
+print(clasificado)
+
+clasificado = "Clasificador reglas con post-poda: '{}'".format(clasificador_dr_poda.clasifica(ejemplo))
 print(clasificado)
 
 # =============================================================================
