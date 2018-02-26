@@ -9,8 +9,6 @@ class ClasificadorDRPoda(ClasificadorDR):
 
     def __init__(self, clasificacion, clases, atributos):
         ClasificadorDR.__init__(self, clasificacion, clases, atributos)
-        self.mejores_reglas = None
-        self.mejor_rendimiento = 0.0
 
     """ El método entrena recibe argumentos adicionales especificos de este tipo de clasicador 
         al igual que en el clasicador anterior. El modelo obtenido es podado a posteriori usando para
