@@ -405,8 +405,10 @@ los ejemplos.
 """
 
 
-def obtener_total_reglas(A, D, C):
+def obtener_total_reglas(A, D):
     reglas_list = list()
+
+    C =list(obtener_frecuencia_ordenada(D).keys())
 
     # Cogemos todas las clases menos la última que será la de por defecto
     for clase in C[:-1]:
