@@ -10,10 +10,10 @@ class ClasificadorDR(Clasificador):
 
     def __init__(self, clasificacion, clases, atributos):
         Clasificador.__init__(self, clasificacion, clases, atributos)
-        self.reglas = []
+        self.reglas = None
 
     def entrena(self, entrenamiento, validacion=None):
-        self.reglas = utils.obtener_total_reglas(self.atributos, entrenamiento, self.clases)
+        self.reglas = utils.obtener_total_reglas(self.atributos, entrenamiento)
 
     """
     Recibe como argumento un ejemplo y devuelve el valor de clasificación

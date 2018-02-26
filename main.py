@@ -6,7 +6,7 @@ from clasificador_dt import ClasificadorDT
 from clasificador_dt_poda import ClasificadorDTPoda
 from clasificador_dr import ClasificadorDR
 from clasificador_dr_poda import ClasificadorDRPoda
-from datasets.titanic import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
+from datasets.prestamos import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
 
 # =============================================================================
 # COMIENZO - TIEMPOS DE EJECUCIÓN
