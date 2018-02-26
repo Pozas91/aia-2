@@ -22,11 +22,13 @@ def es_interior(nodo):
 '''
 Obtiene el nodo raiz de un nuevo arbol que llega hasta el nodo intermedio indicado, que se convertirá en un nodo hoja.
 '''
+
+
 def obtener_nuevo_arbol(raiz, objetivo):
     return obtener_nuevo_arbol_recursivo(raiz, objetivo)
 
-def obtener_nuevo_arbol_recursivo(actual, objetivo):
 
+def obtener_nuevo_arbol_recursivo(actual, objetivo):
     if actual == objetivo:
         key = maxima_frecuencia(objetivo.distr)
         nodo = NodoDT(None, objetivo.distr, None, key)
@@ -39,6 +41,7 @@ def obtener_nuevo_arbol_recursivo(actual, objetivo):
         nodo = actual
 
     return nodo
+
 
 """
 Crea un diccionario donde la clave es el nombre de la clase
@@ -196,26 +199,16 @@ def entropia_media_ponderada(S, Si):
 
 
 """
-Calcula la ganacia de información
-"""
-
-
-def ganancia_informacion(S, Si):
-    # TODO
-    return entropia(S) - entropia(S)
-
-
-"""
 Calcula la media ponderada según el criterio de medida
 """
 
 
 def calcular_media_ponderada(medida, S, Si):
-    if (medida == "entropia"):
+    if medida == "entropia":
         resultado = entropia_media_ponderada(S, Si)
-    elif (medida == "error"):
+    elif medida == "error":
         resultado = tasa_error_media_ponderada(S, Si)
-    elif (medida == "gini"):
+    elif medida == "gini":
         resultado = gini_media_ponderada(S, Si)
     else:
         raise ValueError("La medida {} no está registrada.".format(medida))
@@ -260,7 +253,7 @@ def criterio_decision(medida, datos, atributos, indice_atributos):
             if not not Si:
                 total += calcular_media_ponderada(medida, S, Si)
 
-        if (total <= minimo):
+        if total <= minimo:
             minimo = total
             mejor_atributo = atributo
 
@@ -334,8 +327,58 @@ def frecuencia_relativa(R, D, C):
 
 
 """
-Una funcion que dada los atributos y un conjuntos de datos, devuelva una regla para ese conjunto de datos
+Una funcion que dada los atributos A y un conjuntos de datos D, devuelva una regla para ese conjunto de datos
 """
+
+
+# =============================================================================
+#         Una regla tiene la siguiente forma:
+#         reglas = [
+#             ([(1, 'uno'), (0, 'parado'), (3, 'dos o mas')], 'estudiar'),
+#             ([(1, 'dos'), (0, 'parado'), (3, 'dos o mas')], 'no conceder'),
+#         ]
+# =============================================================================
+def obtener_regla(A, D):
+    indices = indice_atributos(A)
+    regla_list = list()
+    max_ejemplos_cubiertos = 0
+    tupla_max = tuple()
+
+    for atributo in indices:
+
+        for valor_atributo in A[indices[atributo]][1]:
+
+            # Genero la tupla con el indice del atributo y su valor
+            tupla = (indices[atributo], valor_atributo)
+
+            # Añado la tupla nueva a la copia de la lista
+            regla_list.append(tupla)
+
+            # Calculo cuantos ejemplos cubrimos con dicha regla
+            ej_cubiertos = len(ejemplos_cubiertos(regla_list, D))
+
+            # Compruebo si el recubrimiento de ejemplos es más grande que el maximo
+            if ej_cubiertos > max_ejemplos_cubiertos:
+                max_ejemplos_cubiertos = ej_cubiertos
+                tupla_max = tupla
+
+            # Elimino la tupla que insertamos al principio
+            regla_list.remove(regla_list[-1])
+
+        regla_list.append(tupla_max)
+        max_ejemplos_cubiertos = 0
+
+    return regla_list
+
+
+"""
+Función encargada de filtrar un conjunto de entrenamiento dada una clase
+"""
+
+
+def filtrar_clase(lista, clase):
+    return [item for item in lista if item[6] == clase]
+
 
 """
 Una funcion que para una clase entera, devuelva todas las reglas de esa clase,
@@ -343,7 +386,37 @@ itera sobre la anterior y con el resto de atributos que no estén cubiertos por 
 con el conjunto de ejemplos restante para crear otra regla, hasta que no queden ejemplos
 """
 
+
+def obtener_reglas_por_clases(A, D, C):
+    filtro_conjunto_datos = filtrar_clase(D, C)
+    reglas_list = list()
+
+    while len(filtro_conjunto_datos) != 0:
+        regla = (obtener_regla(A, filtro_conjunto_datos), C)
+        reglas_list.append(regla)
+        filtro_conjunto_datos = list(
+            filter(lambda x: x not in ejemplos_cubiertos(regla[0], filtro_conjunto_datos), filtro_conjunto_datos))
+
+    return reglas_list
+
+
 """
 Por último, otra que itere sobre todas las clases y llame a la anterior, pero en esta funcion en concreto no se reducen
 los ejemplos.
 """
+
+
+def obtener_total_reglas(A, D, C):
+    reglas_list = list()
+
+    # Cogemos todas las clases menos la última que será la de por defecto
+    for clase in C[:-1]:
+        reglas_list.append(obtener_reglas_por_clases(A, D, clase))
+
+    # Aplanar lista de listas
+    reglas_list = sum(reglas_list, [])
+
+    # Añadimos la última regla por defecto
+    reglas_list.append((None, C[-1]))
+
+    return reglas_list
