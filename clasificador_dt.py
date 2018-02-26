@@ -110,12 +110,14 @@ class ClasificadorDT(Clasificador):
     """
     Establece el nodo raiz del arbol entrenado
     """
+
     def set_arbol(self, arbol):
         self.__arbol = arbol
 
     """
     Obtiene el nodo raiz del arbol entrenado
     """
+
     def get_arbol(self):
         return self.__arbol
 
@@ -123,6 +125,7 @@ class ClasificadorDT(Clasificador):
         Recibe como argumento un ejemplo y devuelve el valor de clasificación
         según el modelo obtenido en el entrenamiento.
         """
+
     def clasifica(self, ejemplo):
         if self.get_arbol():
             return self.clasifica_recursiva(ejemplo, self.get_arbol())
@@ -132,6 +135,7 @@ class ClasificadorDT(Clasificador):
     """
     Función recursiva para clasificar el ejemplo
     """
+
     def clasifica_recursiva(self, ejemplo, arbol):
 
         res = ""
@@ -149,6 +153,7 @@ class ClasificadorDT(Clasificador):
     Recibe como argumento un conjunto de prueba y devuelve el rendimiento del
     modelo obtenido en el entrenamiento.
     """
+
     def evalua(self, prueba):
         if self.get_arbol():
 
@@ -171,6 +176,7 @@ class ClasificadorDT(Clasificador):
     """
     Imprime de forma legible el modelo obtenido en el entrenamiento.
     """
+
     def imprime(self):
         if self.get_arbol():
             print(self.get_arbol())

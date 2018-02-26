@@ -310,8 +310,7 @@ la clase C.
 
 def ejemplos_correctamente_cubiertos(R, D, C):
     ejemplos = ejemplos_cubiertos(R, D)
-
-    return [ejemplo for ejemplo in ejemplos if ejemplo[-1] == C]
+    return filtrar_clase(ejemplos, C)
 
 
 """
@@ -377,7 +376,7 @@ Función encargada de filtrar un conjunto de entrenamiento dada una clase
 
 
 def filtrar_clase(lista, clase):
-    return [item for item in lista if item[6] == clase]
+    return [item for item in lista if item[-1] == clase]
 
 
 """

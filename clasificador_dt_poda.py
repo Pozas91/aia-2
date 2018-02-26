@@ -69,4 +69,3 @@ class ClasificadorDTPoda(ClasificadorDT):
             for key in nodo.ramas:
                 nodo_hijo = nodo.ramas[key]
                 self.poda_recursiva(raiz, nodo_hijo, validacion)
-
