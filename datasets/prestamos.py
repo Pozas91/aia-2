@@ -579,7 +579,7 @@ prueba = [['funcionario', 'ninguno', 'dos o más', 'ninguno', 'divorciado', 'med
           ['laboral', 'dos o más', 'dos o más', 'ninguno', 'divorciado', 'altos', 'conceder'],
           ['jubilado', 'uno', 'ninguna', 'ninguno', 'soltero', 'altos', 'estudiar'],
           ['laboral', 'ninguno', 'dos o más',
- 'ninguno', 'soltero', 'altos', 'conceder'],
+           'ninguno', 'soltero', 'altos', 'conceder'],
           ['parado', 'dos o más', 'ninguna', 'uno', 'soltero', 'altos', 'estudiar'],
           ['parado', 'dos o más', 'una', 'ninguno', 'casado', 'medios', 'estudiar'],
           ['funcionario', 'dos o más', 'dos o más', 'dos o más', 'viudo', 'altos', 'conceder'],
